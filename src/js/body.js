@@ -96,12 +96,6 @@
                     break;
             }
 
-            if (opts.onRenderCell) {
-                render = opts.onRenderCell(date, type) || {};
-                html = render.html ? render.html : html;
-                classes += render.classes ? ' ' + render.classes : '';
-            }
-
             if (opts.range) {
                 if (dp.isSame(minRange, date, type)) classes += ' -range-from-';
                 if (dp.isSame(maxRange, date, type)) classes += ' -range-to-';
@@ -132,6 +126,13 @@
             if (dp.isSame(currentDate, date, type)) classes += ' -current-';
             if (parent.focused && dp.isSame(date, parent.focused, type)) classes += ' -focus-';
             if (parent._isSelected(date, type)) classes += ' -selected-';
+
+            if (opts.onRenderCell) {
+                render = opts.onRenderCell(date, type, this.d) || {};
+                html = render.html ? render.html : html;
+                classes += render.classes ? ' ' + render.classes : '';
+            }
+
             if (!parent._isInRange(date, type) || render.disabled) classes += ' -disabled-';
 
             return {
